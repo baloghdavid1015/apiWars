@@ -11,9 +11,16 @@
 <body>
     <h2>Star Wars universe planets</h2>
     <div>
-       <a href="{{ url_for('registration') }}">
-           Regitration
-       </a>
+        <button type="button" class="login">
+            <a href="/login">
+                Log in
+            </a>
+        </button>
+        <button type="button" class="register">
+            <a href="/registration">
+               Registration
+            </a>
+        </button>
     </div>
     <table class="table-striped">
         <tr>
@@ -24,15 +31,25 @@
         {% for planet in planets %}
             <tr class="{{ planet.name }}">
                 <td>{{ planet.name }}</td>
-                <td>{{ planet.diameter }}</td>
+                <td>{{ planet.diameter }} km</td>
                 <td>{{ planet.climate }}</td>
                 <td>{{ planet.terrain }}</td>
-                <td>{{ planet.surface_water }}</td>
-                <td>{{ planet.population }}</td>
+                {% if planet.surface_water == "unknown" %}
+                    <td>unknown</td>
+                {% else %}
+                    <td>{{ planet.surface_water }}%</td>
+                {% endif %}
+                {% if planet.population == "unknown" %}
+                    <td>unknown</td>
+                {% else %}
+                    <td>{{ planet.population }} people</td>
+                {% endif %}
                 {% if planet.residents|length == 0 %}
                     <td>No known residents</td>
                 {% else %}
-                    <td class="residents"></td>
+                    <td class="residents">
+                        <button type="button" class="btn btn-primary" id="resident-{{ planet.name }}" ></button>
+                    </td>
                 {% endif %}
             </tr>
         {% endfor %}

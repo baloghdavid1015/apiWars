@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request, url_for
+from flask import Flask, render_template, redirect, request, url_for, session
 import requests
 import util
 import data_handler
@@ -9,7 +9,6 @@ def main_page():
     response = requests.get('https://swapi.co/api/planets').json()
     planets = response['results']
     headers = ["Name", "Diameter", "Climate", "Terrain", "Surface Water Percentage", "Population", "Residents", ""]
-    print(planets)
     return render_template("main_page.html", planets=planets, headers=headers)
 
 
@@ -40,7 +39,35 @@ def save_user():
     return redirect('/')
 
 
+@app.route('/login', methods=['GET'])
+def login_page():
+    return render_template('login.html')
+
+
+@app.route('/login', methods=['POST'])
+def login():
+    user_data = data_handler.get_user_and_password(request.form['user_name'])
+    if not user_data:
+        return render_template('main_page.html')
+    is_error = util.verify_password(request.form['password'], user_data['password'])
+    if is_error == False:
+        return render_template('main_page.html')
+    if request.form['user_name'] == user_data['user_name'] and util.verify_password(request.form['password'], user_data['password']):
+        session['user_id'] = user_data['user_id']
+        session['user_name'] = user_data['user_name']
+        return redirect('/')
+
+
+@app.route('/logout')
+def list_logout():
+    session.clear()
+    return render_template('main_page.html')
+
+
+
+
 if __name__ == "__main__":
+    app.secret_key = "dilo"
     app.run(
         port=3000,
         debug=True
