@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration to Api Wars</title>
+</head>
+<body>
+    <div class="registration_form_div">
+        <form class="registration_form" action="{{ url_for('save_user') }}" method="post">
+            <h3 id="username">
+                <label for="username">User name:</label>
+                <input type="text" class="users" name="user_name" minlength="5" required/>
+            </h3>
+            <h3 id="password">
+                <label for="password">Password:</label>
+                <input type="password" class="users" name="password" minlength="8" required/>
+            </h3>
+                <button type="submit" class="submit_button" name="submit">Register</button>
+        </form>
+    </div>
+</body>
+</html>

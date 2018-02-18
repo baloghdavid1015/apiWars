@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Api Wars</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <script src="/static/planets.js" async></script>
+</head>
+<body>
+    <h2>Star Wars universe planets</h2>
+    <div>
+       <a href="{{ url_for('registration') }}">
+           Regitration
+       </a>
+    </div>
+    <table class="table-striped">
+        <tr>
+            {% for header in headers %}
+                <th>{{ header }}</th>
+            {% endfor %}
+        </tr>
+        {% for planet in planets %}
+            <tr class="{{ planet.name }}">
+                <td>{{ planet.name }}</td>
+                <td>{{ planet.diameter }}</td>
+                <td>{{ planet.climate }}</td>
+                <td>{{ planet.terrain }}</td>
+                <td>{{ planet.surface_water }}</td>
+                <td>{{ planet.population }}</td>
+                {% if planet.residents|length == 0 %}
+                    <td>No known residents</td>
+                {% else %}
+                    <td class="residents"></td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
